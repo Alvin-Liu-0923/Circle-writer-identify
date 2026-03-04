@@ -6,6 +6,7 @@ from torchvision import models
 import numpy as np
 import pandas as pd
 import os
+import torch_directml
 import json
 
 # ==========================================
@@ -111,7 +112,9 @@ def run_training(model_type='C'):
     BATCH_SIZE = 32
     EPOCHS = 10
     LR = 0.0001 # 较小的学习率适合微调
-    DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    device_dml = torch_directml.device()
+    DEVICE = device_dml 
+    print(f"✅ 正在使用加速设备: {torch_directml.device_name(0)}")
 
     # 1. 初始化映射
     writer_to_idx = get_or_create_mapping(CSV_PATH)
